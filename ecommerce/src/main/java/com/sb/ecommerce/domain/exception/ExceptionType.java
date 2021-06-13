@@ -11,7 +11,8 @@ public enum ExceptionType {
     BACK_SCRATCHER_CREATION_DUPLICATED_NAME("Back Scratcher", "Creation"),
     BACK_SCRATCHER_EDITION("Back Scratcher", "Edition"),
     BACK_SCRATCHER_NOT_FOUND("Back Scratcher", "Not Found"),
-    BACK_SCRATCHER_DELETION("Back Scratcher", "Deletion");
+    BACK_SCRATCHER_DELETION("Back Scratcher", "Deletion"),
+    BACK_SCRATCHER_UNEXPECTED("Back Scratcher", "Unexpected");
     private String entity;
     private String type;
 }

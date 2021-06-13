@@ -65,7 +65,7 @@ public class BackScratcherEndpointTest {
         // First creation --> Ok
         doCreate(toBeCreated);
         // Duplicated creation --> Failure
-        ResultActions result = doCreate(toBeCreated).andExpect(status().is5xxServerError());
+        ResultActions result = doCreate(toBeCreated).andExpect(status().isBadRequest());
 
         assertEquals(DomainException.class, result.andReturn().getResolvedException().getClass());
         var actual = (DomainException) result.andReturn().getResolvedException();
@@ -89,7 +89,7 @@ public class BackScratcherEndpointTest {
         Long toBeDeletedId = 10L;
         doFindById(toBeDeletedId).andExpect(status().isNotFound());
         var result = doDelete(toBeDeletedId);
-        result.andExpect(status().is5xxServerError());
+        result.andExpect(status().isNotFound());
     }
 
     @Test
@@ -118,7 +118,7 @@ public class BackScratcherEndpointTest {
         update.setDescription(created.getDescription() + "[UPDATED]");
         update.setSize(Set.of(BackScratcherSize.values()));
         var result = doUpdate(update);
-        result.andExpect(status().is5xxServerError());
+        result.andExpect(status().isBadRequest());
     }
 
     @SneakyThrows

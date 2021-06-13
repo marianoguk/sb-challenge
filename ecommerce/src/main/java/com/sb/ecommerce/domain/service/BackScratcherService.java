@@ -54,7 +54,7 @@ public class BackScratcherService {
 
         model.get().edit(dto.getName(), dto.getDescription(), dto.getPrice(), dto.getSize());
 
-        var validation = validator.validate(model);
+        var validation = validator.validate(model.get());
         if(validation.isEmpty()) {
             return mapper.map(repository.save(model.get()));
         }

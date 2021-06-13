@@ -10,7 +10,6 @@ import javax.validation.Validator;
 
 @Configuration
 public class EcommerceConfig {
-
     @Bean
     public BackScratcherService backScratcherService(
             BackScratcherRepository repo, BackScratcherMapper mapper, Validator validator) {
