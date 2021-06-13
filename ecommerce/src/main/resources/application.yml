@@ -1,0 +1,10 @@
+spring:
+  data:
+    jpa.repositories.enabled: true
+  datasource:
+    initialization-mode: always
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/scratch_bling
+    username: scratch_bling_user
+    password: 4dm1n01d3
+    continueOnError: true
