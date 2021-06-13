@@ -8,3 +8,7 @@ spring:
     username: scratch_bling_user
     password: 4dm1n01d3
     continueOnError: true
+
+springdoc:
+  swagger-ui:
+    operationsSorter: method

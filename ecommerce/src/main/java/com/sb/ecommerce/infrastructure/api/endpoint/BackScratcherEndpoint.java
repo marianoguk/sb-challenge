@@ -10,7 +10,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/back-scratcher")
-public class BackScratcherEndpoint {
+public class BackScratcherEndpoint implements BackScratcherResource {
     private final BackScratcherService service;
 
     public BackScratcherEndpoint(BackScratcherService service) {
