@@ -32,6 +32,10 @@ public class BackScratcherService {
     }
 
     public BackScratcherDto create(BackScratcherDto dto) {
+        if (repository.existByName(dto.getName())) {
+            throw new DomainException(ExceptionType.BACK_SCRATCHER_CREATION_DUPLICATED_NAME);
+        }
+
         var model = mapper.map(dto);
         var validation = validator.validate(model);
         if(validation.isEmpty()) {
@@ -48,7 +52,7 @@ public class BackScratcherService {
             throw new DomainException(ExceptionType.BACK_SCRATCHER_NOT_FOUND);
         }
 
-        model.get().with(dto.getPrice()).with(dto.getDescription()).with(dto.getSize());
+        model.get().edit(dto.getName(), dto.getDescription(), dto.getPrice(), dto.getSize());
 
         var validation = validator.validate(model);
         if(validation.isEmpty()) {

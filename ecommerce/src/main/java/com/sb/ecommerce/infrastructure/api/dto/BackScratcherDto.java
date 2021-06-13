@@ -1,16 +1,14 @@
 package com.sb.ecommerce.infrastructure.api.dto;
 
 import com.sb.ecommerce.domain.model.BackScratcherSize;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
+@EqualsAndHashCode
 @Getter
 @Setter
 public class BackScratcherDto {
@@ -19,4 +17,5 @@ public class BackScratcherDto {
     private String description;
     private BigDecimal price;
     private Set<BackScratcherSize>  size;
+
 }

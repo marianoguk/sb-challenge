@@ -8,6 +8,7 @@ import lombok.Getter;
 public enum ExceptionType {
     BACK_SCRATCHER_SIZE_DELETION("Back Scratcher Size", "Deletion"),
     BACK_SCRATCHER_CREATION("Back Scratcher", "Creation"),
+    BACK_SCRATCHER_CREATION_DUPLICATED_NAME("Back Scratcher", "Creation"),
     BACK_SCRATCHER_EDITION("Back Scratcher", "Edition"),
     BACK_SCRATCHER_NOT_FOUND("Back Scratcher", "Not Found"),
     BACK_SCRATCHER_DELETION("Back Scratcher", "Deletion");

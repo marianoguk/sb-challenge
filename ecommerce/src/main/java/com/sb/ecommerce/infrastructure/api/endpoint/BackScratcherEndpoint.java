@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 
 @RestController
-@RequestMapping("/back-scratcher")
+@RequestMapping("/api/v1/back-scratcher")
 public class BackScratcherEndpoint {
     private final BackScratcherService service;
 

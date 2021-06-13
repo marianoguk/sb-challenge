@@ -33,19 +33,14 @@ public class BackScratcher {
     @Column(name="size")
     private Set<BackScratcherSize> size;
 
-    public BackScratcher with(Set<BackScratcherSize> size) {
+    public BackScratcher edit(String name, String description, BigDecimal price, Set<BackScratcherSize> size) {
+        this.name = name;
+        this.description = description;
+        this.price = price;
         this.size = size;
         return this;
     }
 
-    public BackScratcher with(BigDecimal price) {
-        this.price = price;
-        return this;
-    }
 
-    public BackScratcher with(String description) {
-        this.description = description;
-        return this;
-    }
 
 }

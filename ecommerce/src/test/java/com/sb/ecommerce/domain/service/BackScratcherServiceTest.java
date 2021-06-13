@@ -17,18 +17,9 @@ public class BackScratcherServiceTest extends AbstractIt {
 
     @Test
     void create() {
-        var dto = create("S1", Set.of(BackScratcherSize.S));
+        var dto = BackScratcherBuilder.create("S1", Set.of(BackScratcherSize.S));
         var created = service.create(dto);
         Assertions.assertNotNull(created.getId());
-    }
-
-    private BackScratcherDto create(String name, Set<BackScratcherSize> size) {
-        BackScratcherDto dto = new BackScratcherDto();
-        dto.setName(name);
-        dto.setSize(size);
-        dto.setDescription("Description for " + name);
-        dto.setPrice(BigDecimal.TEN);
-        return dto;
     }
 
 }
