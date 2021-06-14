@@ -31,6 +31,7 @@ public class BackScratcher {
     @Enumerated(EnumType.STRING)
     @CollectionTable(name="back_scratcher_size")
     @Column(name="size")
+    @Size(min=1)
     private Set<BackScratcherSize> size;
 
     public BackScratcher edit(String name, String description, BigDecimal price, Set<BackScratcherSize> size) {

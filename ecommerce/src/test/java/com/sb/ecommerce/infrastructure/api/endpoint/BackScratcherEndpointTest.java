@@ -13,15 +13,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import java.math.BigDecimal;
+import java.nio.file.Paths;
+import java.util.HashSet;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 
@@ -30,6 +34,9 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.file.Files.readAllBytes;
+
 
 @SpringBootTest(classes = {EcommerceApplication.class, H2JpaTestConfig.class})
 @AutoConfigureMockMvc
@@ -37,6 +44,8 @@ import static org.springframework.http.MediaType.APPLICATION_JSON;
 public class BackScratcherEndpointTest {
 
     private static final String PATH = "/api/v1/back-scratcher";
+    private static final String JSON_PATH = "/test-data/invalid-size.json";
+    private static final String JSON_PARSE_ERROR = "JSON parse error: Cannot deserialize value of type `com.sb.ecommerce.domain.model.BackScratcherSize` from String \"A\": not one of the values accepted for Enum class: [S, XL, XM, L, M]";
 
     @Autowired
     private MockMvc mockMvc;
@@ -70,6 +79,21 @@ public class BackScratcherEndpointTest {
         assertEquals(DomainException.class, result.andReturn().getResolvedException().getClass());
         var actual = (DomainException) result.andReturn().getResolvedException();
         assertEquals(ExceptionType.BACK_SCRATCHER_CREATION_DUPLICATED_NAME, actual.getType());
+    }
+
+    @SneakyThrows
+    @Test
+    public void createFailureBecauseSizeIsEmpty() {
+        var toBeCreated = BackScratcherBuilder.create("bs name", new HashSet());
+        doCreate(toBeCreated).andExpect(status().isBadRequest());
+    }
+
+    @SneakyThrows
+    @Test
+    public void createFailureBecauseInvalidSize() {
+        var resourceUri = new ClassPathResource(JSON_PATH).getURI();
+        String json = new String(readAllBytes(Paths.get(resourceUri)), UTF_8);
+        validateJsonParsingError(post(PATH));
     }
 
     @Test
@@ -119,6 +143,34 @@ public class BackScratcherEndpointTest {
         update.setSize(Set.of(BackScratcherSize.values()));
         var result = doUpdate(update);
         result.andExpect(status().isBadRequest());
+    }
+
+    @SneakyThrows
+    @Test
+    public void updateFailureBecauseSizeIsEmpty() {
+        var toBeCreated = BackScratcherBuilder.create();
+        var dto = extractDto(doCreate(toBeCreated));
+        dto.setSize(new HashSet<>());
+        doUpdate(dto).andExpect(status().isBadRequest());
+    }
+
+    @SneakyThrows
+    @Test
+    public void updateFailureBecauseInvalidSize() {
+        var dto = BackScratcherBuilder.create();
+        dto.setId(1L);
+        extractDto(doCreate(dto));
+        validateJsonParsingError(put(PATH));
+    }
+
+    @SneakyThrows
+    private void validateJsonParsingError(MockHttpServletRequestBuilder method) {
+        var resourceUri = new ClassPathResource(JSON_PATH).getURI();
+        String json = new String(readAllBytes(Paths.get(resourceUri)), UTF_8);
+        ResultActions result = mockMvc.perform(method.contentType(APPLICATION_JSON).content(json));
+        Exception jsonParsingException = result.andReturn().getResolvedException();
+        assertEquals(HttpMessageNotReadableException.class, jsonParsingException.getClass());
+        assertTrue(jsonParsingException.getMessage().contains(JSON_PARSE_ERROR));
     }
 
     @SneakyThrows

@@ -1,0 +1,7 @@
+{
+  "id": 1,
+  "name": "Back Scratcher with invalid Size",
+  "description": "Description for Product Back Scratcher with invalid Size",
+  "price": 10.10,
+  "size": ["S", "A", "B"]
+}
