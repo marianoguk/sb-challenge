@@ -1,14 +1,12 @@
 package com.sb.ecommerce.domain.service;
 
 import com.sb.ecommerce.domain.model.BackScratcherSize;
-import com.sb.ecommerce.infrastructure.api.dto.BackScratcherDto;
 import com.sb.ecommerce.it.AbstractIt;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.math.BigDecimal;
 import java.util.Set;
 
 public class BackScratcherServiceTest extends AbstractIt {

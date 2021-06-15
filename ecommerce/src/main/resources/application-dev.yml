@@ -1,0 +1,21 @@
+spring:
+  data:
+    jpa.repositories.enabled: true
+  datasource:
+    initialization-mode: always
+    driverClassName: org.postgresql.Driver
+    url: jdbc:postgresql://scratch-bling.cgx38uchyp8p.us-east-1.rds.amazonaws.com:5432/scratch_bling
+    username: ${db_user}
+    password: ${db_password}
+    continueOnError: false
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    properties:
+      hibernate:
+        dialect = org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: update
+#spring.jpa.hibernate.ddl-auto: update
+springdoc:
+  swagger-ui:
+    operationsSorter: method
